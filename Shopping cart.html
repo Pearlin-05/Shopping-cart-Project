@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        <div class="form-group">
+            <input type="text" id="item" placeholder="Item name">
+            <input type="number" id="price" placeholder="Price" step="0.01">
+            <input type="number" id="quantity" placeholder="Quantity" min="1">
+            <button onclick="addItem()">Add Item</button>
+        </div>
+        <div class="cart">
+            <h2>Your Cart</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-body">
+                    <tr><td colspan="5">Your cart is empty.</td></tr>
+                </tbody>
+            </table>
+            <div class="total" id="total-price">Total: ₹0.00</div>
+        </div>
+    </div>
+    <script>
+        let cart = [];
+        function addItem() {
+            const name = document.getElementById('item').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const quantity = parseInt(document.getElementById('quantity').value);
+            if (!name || isNaN(price) || isNaN(quantity) || quantity <= 0) {
+                alert('Please enter valid details.');
+                return;
+            }
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ name, price, quantity });
+            }
+            updateCart();
+        }
+        function removeItem(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCart();
+        }
+        function updateCart() {
+            const cartBody = document.getElementById('cart-body');
+            cartBody.innerHTML = cart.length === 0 ? '<tr><td colspan="5">Your cart is empty.</td></tr>' : cart.map(item => `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>₹${item.price.toFixed(2)}</td>
+                    <td>${item.quantity}</td>
+                    <td>₹${(item.price * item.quantity).toFixed(2)}</td>
+                    <td><button onclick="removeItem('${item.name}')">Remove</button></td>
+                </tr>
+            `).join('');
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            document.getElementById('total-price').innerText = `Total: ₹${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
