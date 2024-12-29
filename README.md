@@ -1,1 +1,3 @@
-# Shopping-cart-Project
+# Shopping Cart Simulation
+
+This project is a simple web-based shopping cart application built using HTML, CSS, and JavaScript. It allows users to add items to a cart by specifying the item name, price, and quantity. The cart dynamically updates to show all items, their prices, quantities, and subtotals. The total price of all items in the cart is calculated in real-time. Users can also remove items from the cart with a single click. This project demonstrates basic web development concepts like event handling, and dynamic updates, making it a great learning tool or a starting point for building e-commerce features.
